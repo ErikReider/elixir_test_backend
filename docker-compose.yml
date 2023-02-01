@@ -1,0 +1,35 @@
+version: "3.1"
+
+volumes:
+  backend:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${BACKENDPATH}
+      o: bind
+
+services:
+  apoex_test-psql:
+    image: postgres
+    container_name: apoex_test-psql
+    restart: always
+    environment:
+      - POSTGRES_USER=${PGUSER}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+    ports:
+      - "5432:5432"
+
+  backend:
+    network_mode: host
+    build: 
+      context: ./test_backend
+      network: host
+    container_name: apoex_test-backend
+    environment:
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGHOST=${PGHOST}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      # - MIX_ENV=prod
+    volumes:
+      - backend:/test_backend
