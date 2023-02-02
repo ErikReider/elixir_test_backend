@@ -79,4 +79,11 @@ defmodule TestBackend.BeerTest do
 
     refute beer == nil
   end
+
+  test "encoding as JSON doesn't include ignored fields" do
+    json = Jason.encode!(%Beer{}) |> Jason.decode!()
+
+    refute json |> Map.has_key?("inserted_at")
+    refute json |> Map.has_key?("updated_at")
+  end
 end

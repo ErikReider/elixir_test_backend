@@ -3,7 +3,7 @@ defmodule TestBackend.Beer do
   import Ecto.Changeset
   alias TestBackend.Beer
 
-  @derive {Jason.Encoder, except: [:__meta__]}
+  @derive {Jason.Encoder, except: [:__meta__, :updated_at, :inserted_at]}
   schema "beers" do
     field(:name)
     field(:tagline)
