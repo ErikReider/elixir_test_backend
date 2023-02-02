@@ -20,7 +20,7 @@ defmodule TestBackend.Router do
          when is_bitstring(query) and is_bitstring(page_nr) <- conn.params,
          {:ok, beers, has_next_page, cached} <- Query.query(query, page_nr) do
       body = Jason.encode!(%{cached: cached, has_next_page: has_next_page, beers: beers})
-      send_resp(conn, 200, body)
+      send_resp(conn |> put_resp_content_type("application/json"), 200, body)
     else
       {:error, error} -> send_resp(conn, 500, inspect(error))
       {:query_error, error} -> send_resp(conn, 400, error)
