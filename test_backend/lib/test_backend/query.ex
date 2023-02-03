@@ -30,16 +30,18 @@ defmodule TestBackend.Query do
 
   @doc """
   Grabs the cached data or the latest data from punkapi if there's no cache
-
-  TODO: Refresh cache once it's older than X hours
   """
   def get_cached(query, page_nr) when is_bitstring(query) and is_integer(page_nr) do
     Logger.debug("Caching #{query}, page: #{page_nr}")
 
     beers =
       for page_nr <- [page_nr, page_nr + 1] do
-        case CacheEntry.get_cache_entry(query, page_nr) do
-          %CacheEntry{} = entry ->
+        entry = CacheEntry.get_cache_entry(query, page_nr)
+        now = NaiveDateTime.utc_now()
+
+        cond do
+          # Invalidate cache that's 1 hour and older
+          entry != nil && NaiveDateTime.diff(now, entry.updated_at, :hour) == 0 ->
             # Grabs the cached data
             Logger.debug(
               "Fetching cache for page #{page_nr}, #{entry.id} #{entry.key}, ids: #{entry.ids}"
@@ -47,7 +49,9 @@ defmodule TestBackend.Query do
 
             {Repo.all(from b in Beer, where: b.id in ^entry.ids), true}
 
-          _ ->
+          # NOTE: possible improvement would be to invalidate and remove each
+          # beer that's only assosiated with this cache entry
+          true ->
             # Grabs the latest data from punkapi
             Logger.debug("Fetching the latest data for page #{page_nr}")
             get_latest_data(query, page_nr)
