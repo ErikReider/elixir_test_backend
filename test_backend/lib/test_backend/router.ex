@@ -6,6 +6,8 @@ defmodule TestBackend.Router do
 
   plug(Plug.Logger)
 
+  plug(CORSPlug, methods: ["GET"])
+
   plug(Plug.Parsers,
     parsers: [:json],
     pass: ["application/json"],

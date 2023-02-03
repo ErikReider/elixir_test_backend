@@ -30,6 +30,7 @@ defmodule TestBackend.MixProject do
     [
       {:plug, "~> 1.13"},
       {:plug_cowboy, "~> 2.0"},
+      {:cors_plug, "~> 3.0"},
       {:jason, "~> 1.4"},
       {:ecto, "~> 3.8"},
       {:ecto_sql, "~> 3.0"},
