@@ -7,6 +7,12 @@ volumes:
       type: none
       device: ${BACKENDPATH}
       o: bind
+  frontend:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${FRONTNEDPATH}
+      o: bind
 
 services:
   apoex_test-psql:
@@ -18,7 +24,7 @@ services:
       - POSTGRES_PASSWORD=${PGPASSWORD}
     ports:
       - "5432:5432"
-
+  
   backend:
     network_mode: host
     build: 
@@ -33,3 +39,14 @@ services:
       # - MIX_ENV=prod
     volumes:
       - backend:/test_backend
+
+  frontend:
+    network_mode: host
+    build: 
+      context: ./frontend/
+      network: host
+    container_name: apoex_test-frontend
+    environment:
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+    volumes:
+      - frontend:/frontend
