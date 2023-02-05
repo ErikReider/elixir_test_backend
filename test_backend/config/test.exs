@@ -1,6 +1,6 @@
 import Config
 
-config :test_backend, cowboy_port: 8082
+config :test_backend, cowboy_port: 8081
 
 config :test_backend, :ecto_repos, [TestBackend.Repo]
 
