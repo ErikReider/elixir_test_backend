@@ -1,0 +1,19 @@
+@import "../../variables.scss";
+
+.item {
+  cursor: pointer;
+  display: flex;
+
+  .header-image {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  .text-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}

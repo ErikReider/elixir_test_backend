@@ -1,0 +1,150 @@
+@import "../../variables.scss";
+
+.App {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+
+  /* Search section */
+  .search-box {
+    background-color: $accent-color;
+    margin-bottom: 8px;
+    box-shadow: $shadow-item;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input[type="search"] {
+      border-radius: $border-radius;
+      border: 1px solid $border-color;
+      margin: 16px;
+      font-size: 1.5rem;
+      padding: 8px;
+      box-shadow: $shadow-item;
+    }
+
+    input[type="submit"] {
+      height: max-content;
+    }
+  }
+
+  /* Beer list section */
+  .result-box {
+    height: max-content;
+    margin-inline: auto;
+
+    &.empty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .items {
+      display: grid;
+      margin: 8px;
+      gap: 8px;
+      height: 100%;
+      max-width: 1000px;
+      @media (min-width: 800px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .page-direction-box {
+      .button {
+        width: 50px;
+        font-size: 1.5rem;
+        background-color: $accent-color;
+        color: $on-accent-color;
+        // width: 32px;
+        // height: 32px;
+        // font-size: initial;
+      }
+    }
+  }
+}
+
+/* Popup */
+.popup-overlay {
+  background-color: $overlay-color;
+
+  .modal {
+    background-color: $bg-color;
+    margin: 12px;
+    padding: 16px;
+    box-shadow: $shadow;
+    border-radius: $border-radius;
+    max-width: 1000px;
+
+    .popup-close {
+      display: block;
+      text-align: center;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      margin-inline-start: auto;
+    }
+
+    .popup-content {
+      overflow-y: auto;
+      max-height: min(80vh, 700px);
+      display: grid;
+      gap: 8px;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: max-content max-content max-content;
+      grid-template-areas:
+        "img title"
+        "img sub"
+        "img desc"
+        "img ."
+        "tips tips"
+        "food food";
+
+      .popup-image {
+        grid-area: img;
+        height: 256px;
+        width: 256px;
+        object-fit: contain;
+      }
+
+      .popup-title {
+        grid-area: title;
+        margin: 0;
+        height: max-content;
+      }
+
+      .popup-sub {
+        grid-area: sub;
+        height: max-content;
+      }
+
+      .popup-desc {
+        grid-area: desc;
+        height: max-content;
+      }
+
+      .popup-tips {
+        grid-area: tips;
+
+        h2 {
+          margin: 0;
+          margin-bottom: 12px;
+        }
+      }
+
+      .popup-food-pairings {
+        grid-area: food;
+
+        h2 {
+          margin: 0;
+          margin-bottom: 12px;
+        }
+
+        ul {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
