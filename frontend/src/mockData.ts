@@ -43,6 +43,13 @@ export default class Mocks {
     error: new Error("Test error message..."),
   };
 
+  static MOCK_RESPONSE_EMPTY: FetchResult = {
+    beers: [],
+    cached: true,
+    has_next_page: false,
+    error: null,
+  };
+
   static MOCK_RESPONSE_NO_NEXT_3: FetchResult = {
     beers: [this.MOCK_BEER_1, this.MOCK_BEER_2, this.MOCK_BEER_3],
     cached: true,

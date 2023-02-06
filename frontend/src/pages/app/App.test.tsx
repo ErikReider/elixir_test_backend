@@ -36,6 +36,8 @@ beforeEach(() => {
         response = Mocks.MOCK_RESPONSE_ERROR;
       } else if (url.toString().match(new RegExp(/page_nr=3/))?.[0]) {
         response = Mocks.MOCK_RESPONSE_NO_NEXT_3;
+      } else if (url.toString().match(new RegExp(/page_nr=1000/))?.[0]) {
+        response = Mocks.MOCK_RESPONSE_EMPTY;
       }
       return {
         ok: true,
@@ -149,6 +151,28 @@ describe("Querying DB", () => {
 
       expect(screen.getByText("‹")).toBeDisabled();
       expect(screen.getByText("›")).not.toBeDisabled();
+    });
+  });
+
+  test(`${Mocks.MOCK_QUERY} on page 1000 should result in no beers`, async () => {
+    Mocks.mockLocation(`?query=${Mocks.MOCK_QUERY}&page_nr=1000`);
+
+    render(render_app());
+
+    expect(windowFetchSpy).toHaveBeenCalled();
+    expect(windowFetchSpy).toHaveBeenCalledWith(
+      `http://localhost:8080?query=${Mocks.MOCK_QUERY}&page_nr=1000`,
+      { headers: { accepts: "application/json" }, method: "GET" }
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("No beers found...")).toBeInTheDocument();
+
+      const items = window.document.getElementsByClassName("item card hover");
+      expect(items.length).toBe(0);
+
+      const buttons = screen.getAllByRole("button");
+      expect(buttons).toHaveLength(1);
     });
   });
 
