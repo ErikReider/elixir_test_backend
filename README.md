@@ -56,14 +56,12 @@ test due to the use of mock data*
 
 ```sh
 # Allocate a TTY inside the container
-docker exec -it apoex_test-backend /bin/bash
-mix test --seed 0
+docker exec -it apoex_test-backend mix test
 ```
 
 ### Run Frontend Tests:
 
 ```sh
 # Allocate a TTY inside the container
-docker exec -it apoex_test-frontend /bin/bash
-yarn test
+docker exec -it apoex_test-frontend yarn test
 ```
