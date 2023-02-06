@@ -11,7 +11,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${FRONTNEDPATH}
+      device: ${FRONTENDPATH}
       o: bind
 
 services:
@@ -35,7 +35,6 @@ services:
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
       - PGHOST=${PGHOST}
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
       # - MIX_ENV=prod
     volumes:
       - backend:/test_backend
