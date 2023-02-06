@@ -43,23 +43,27 @@ function App() {
       .then(async (result): Promise<FetchResult> => {
         const contentType = result.headers.get("content-type") ?? "";
         if (result.status !== 200) {
+          console.error(result, await result.clone().text());
           throw new Error("Result status not 200!...");
         } else if (!result.ok) {
+          console.error(result, await result.clone().text());
           throw new Error("Result not OK!...");
         } else if (!contentType.includes("application/json")) {
+          console.error(result, await result.clone().text());
           throw new Error("Result not in JSON format!...");
         }
         return await result.json();
       })
       .then((json) => setResult(json))
-      .catch((reason) =>
+      .catch((reason) => {
+        console.error(reason);
         setResult({
           beers: [],
           cached: false,
           has_next_page: false,
           error: reason,
-        })
-      );
+        });
+      });
   };
 
   /** Defaults to 1 if invalid */
